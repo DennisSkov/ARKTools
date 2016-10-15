@@ -28,7 +28,7 @@ class ArkModDownloader():
         self.installed_mods = []  # List to hold installed mods
         self.map_names = []  # Stores map names from mod.info
         self.meta_data = OrderedDict([])  # Stores key value from modmeta.info
-        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"steamapps\workshop\content\346110")
+        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"steamapps/workshop/content/346110")
 
         self.prep_steamcmd()
 
@@ -70,23 +70,10 @@ class ArkModDownloader():
         # Check provided directory
         if self.steamcmd:
             print("[+] Checking Provided Path For SteamCMD")
-            if os.path.isfile(os.path.join(self.steamcmd, "steamcmd.exe")):
-                self.steamcmd = os.path.join(self.steamcmd, "steamcmd.exe")
+            if os.path.isfile(os.path.join(self.steamcmd, "steamcmd.sh")):
+                self.steamcmd = os.path.join(self.steamcmd, "steamcmd.sh")
                 print("[+] SteamCMD Found At Provided Path")
-                return True
-
-        # Check TCAdmin Directory
-        print("[+] SteamCMD Location Not Provided. Checking Common Locations")
-        if os.path.isfile(r"C:\Program Files\TCAdmin2\Monitor\Tools\SteamCmd\steamcmd.exe"):
-            print("[+] SteamCMD Located In TCAdmin Directory")
-            self.steamcmd = r"C:\Program Files\TCAdmin2\Monitor\Tools\SteamCmd\steamcmd.exe"
-            return True
-
-        # Check working directory
-        if os.path.isfile(os.path.join(self.working_dir, "SteamCMD\steamcmd.exe")):
-            print("[+] Located SteamCMD")
-            self.steamcmd = os.path.join(self.working_dir, "SteamCMD\steamcmd.exe")
-            return True
+                return True   
 
         print("[+} SteamCMD Not Found In Common Locations. Attempting To Download")
 
@@ -174,7 +161,7 @@ class ArkModDownloader():
         args.append("346110")
         args.append(modid)
         args.append("+quit")
-        subprocess.call(args, shell=True)
+        subprocess.call(args, shell=False)
 
         return True if self.extract_mod(modid) else False
 
@@ -220,7 +207,7 @@ class ArkModDownloader():
         :return:
         """
 
-        ark_mod_folder = os.path.join(self.working_dir, "ShooterGame\Content\Mods")
+        ark_mod_folder = os.path.join(self.working_dir, "ShooterGame/Content/Mods")
         output_dir = os.path.join(ark_mod_folder, str(modid))
         source_dir = os.path.join(self.temp_mod_path, modid, "WindowsNoEditor")
 
@@ -251,7 +238,7 @@ class ArkModDownloader():
             return False
 
         print("[+] Writing .mod File")
-        with open(os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor\.mod"), "w+b") as f:
+        with open(os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/.mod"), "w+b") as f:
 
             modid = int(modid)
             f.write(struct.pack('ixxxx', modid))  # Needs 4 pad bits
@@ -321,7 +308,7 @@ class ArkModDownloader():
         print("[+] Collecting Mod Meta Data From modmeta.info")
         print("[+] Located The Following Meta Data:")
 
-        mod_meta = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor\modmeta.info")
+        mod_meta = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/modmeta.info")
         if not os.path.isfile(mod_meta):
             print("[x] Failed To Locate modmeta.info. Cannot continue without it.  Aborting")
             return False
@@ -367,7 +354,8 @@ class ArkModDownloader():
 
         print("[+] Collecting Mod Details From mod.info")
 
-        mod_info = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor\mod.info")
+        mod_info = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/mod.info")
+        print("[+] Collecting Mod Details From "+mod_info)
 
         if not os.path.isfile(mod_info):
             print("[x] Failed to locate mod.info. Cannot Continue.  Aborting")
