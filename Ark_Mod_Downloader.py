@@ -141,9 +141,9 @@ class ArkModDownloader():
         Build a list of all installed mods by grabbing all directory names from the mod folder
         :return:
         """
-        if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame\Content\Mods")):
+        if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame/Content/Mods")):
             return
-        for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame\Content\Mods")):
+        for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame/Content/Mods")):
             for d in dirs:
                 self.installed_mods.append(d)
             break
