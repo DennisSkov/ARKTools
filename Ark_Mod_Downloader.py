@@ -99,7 +99,7 @@ class ArkModDownloader():
             print("[x] ERROR: " + e)
             return False
 
-        self.steamcmd = os.path.join(self.working_dir, r"SteamCMD\steamcmd.exe")
+        self.steamcmd = os.path.join(self.working_dir, r"SteamCMD/steamcmd.sh")
 
         return True
 
