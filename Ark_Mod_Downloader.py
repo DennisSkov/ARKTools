@@ -52,7 +52,7 @@ class ArkModDownloader():
     def working_dir_check(self):
         print("[!] No working directory provided.  Checking Current Directory")
         print("[!] " + os.getcwd())
-        if os.path.isdir(os.path.join(os.getcwd(), "ShooterGame\Content")):
+        if os.path.isdir(os.path.join(os.getcwd(), "ShooterGame/Content")):
             print("[+] Current Directory Has Ark Server.  Using The Current Directory")
             self.working_dir = os.getcwd()
         else:
