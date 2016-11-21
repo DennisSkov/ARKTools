@@ -99,7 +99,7 @@ class ArkModDownloader():
             print("[x] ERROR: " + e)
             return False
 
-        self.steamcmd = os.path.join(self.working_dir, r"SteamCMD/steamcmd.sh")
+        self.steamcmd = os.path.join(self.working_dir, "SteamCMD/steamcmd.sh")
 
         return True
 
@@ -110,7 +110,6 @@ class ArkModDownloader():
         by another customer SteamCMD will think it already exists and not download again.
         :return:
         """
-
         steamapps = os.path.join(os.path.dirname(self.steamcmd), "steamapps")
 
         if os.path.isdir(steamapps):
@@ -125,6 +124,7 @@ class ArkModDownloader():
                 """
                 print("[x] Failed To Remove Steamapps Folder. This is normally okay.")
                 print("[x] If this is a TCAdmin Server and using the TCAdmin SteamCMD it may prevent mod from downloading")
+
 
     def update_mods(self):
         self.build_list_of_mods()
@@ -141,15 +141,13 @@ class ArkModDownloader():
         Build a list of all installed mods by grabbing all directory names from the mod folder
         :return:
         """
-        exclude = set(["TheCenter"])
-        if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame/Content/Mods")):
+        exclude = set(["TheCenter", "111111111"])
+        if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
             return
-        for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame/Content/Mods")):
+        for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
             for d in dirs:
-                dirs[:] = [d for d in dirs if d not in exclude]
-                self.installed_mods.append(d)
+                self.installed_mods.extend([dir for dir in dirs if dir not in exclude])
             break
-
     def download_mod(self, modid):
         """
         Launch SteamCMD to download ModID
