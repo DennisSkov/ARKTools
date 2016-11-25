@@ -138,15 +138,15 @@ class ArkModDownloader():
 
     def build_list_of_mods(self):
         """
-        Build a list of all installed mods by grabbing all directory names from the mod folder
-        :return:
-        """
-        exclude = set(["TheCenter", "111111111"])
+       Build a list of all installed mods by grabbing all directory names from the mod folder
+       :return:
+       """
+        exclude = ["TheCenter", "111111111"]
         if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
             return
         for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
-            for d in dirs:
-                self.installed_mods.extend([dir for dir in dirs if dir not in exclude])
+            self.installed_mods.append
+            self.installed_mods.extend([dir for dir in dirs if dir not in exclude])
             break
     def download_mod(self, modid):
         """
