@@ -176,7 +176,7 @@ class ArkModDownloader():
         print("[+] Extracting .z Files.")
 
         try:
-            for curdir, subdirs, files in os.walk(os.path.join(self.temp_mod_path, modid, "LinuxNoEditor")):
+            for curdir, subdirs, files in os.walk(os.path.join(self.temp_mod_path, modid, "WindowsNoEditor")):
                 for file in files:
                     name, ext = os.path.splitext(file)
                     if ext == ".z":
@@ -209,7 +209,7 @@ class ArkModDownloader():
 
         ark_mod_folder = os.path.join(self.working_dir, "ShooterGame/Content/Mods")
         output_dir = os.path.join(ark_mod_folder, str(modid))
-        source_dir = os.path.join(self.temp_mod_path, modid, "LinuxNoEditor")
+        source_dir = os.path.join(self.temp_mod_path, modid, "WindowsNoEditor")
 
         # TODO Need to handle exceptions here
         if not os.path.isdir(ark_mod_folder):
@@ -238,7 +238,7 @@ class ArkModDownloader():
             return False
 
         print("[+] Writing .mod File")
-        with open(os.path.join(self.temp_mod_path, modid, r"LinuxNoEditor/.mod"), "w+b") as f:
+        with open(os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/.mod"), "w+b") as f:
 
             modid = int(modid)
             f.write(struct.pack('ixxxx', modid))  # Needs 4 pad bits
@@ -308,7 +308,7 @@ class ArkModDownloader():
         print("[+] Collecting Mod Meta Data From modmeta.info")
         print("[+] Located The Following Meta Data:")
 
-        mod_meta = os.path.join(self.temp_mod_path, modid, r"LinuxNoEditor/modmeta.info")
+        mod_meta = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/modmeta.info")
         if not os.path.isfile(mod_meta):
             print("[x] Failed To Locate modmeta.info. Cannot continue without it.  Aborting")
             return False
@@ -354,7 +354,7 @@ class ArkModDownloader():
 
         print("[+] Collecting Mod Details From mod.info")
 
-        mod_info = os.path.join(self.temp_mod_path, modid, r"LinuxNoEditor/mod.info")
+        mod_info = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/mod.info")
         print("[+] Collecting Mod Details From "+mod_info)
 
         if not os.path.isfile(mod_info):
