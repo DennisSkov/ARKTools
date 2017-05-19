@@ -28,7 +28,7 @@ class ArkModDownloader():
         self.installed_mods = []  # List to hold installed mods
         self.map_names = []  # Stores map names from mod.info
         self.meta_data = OrderedDict([])  # Stores key value from modmeta.info
-        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"steamapps/workshop/content/346110")
+        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"../Steam/steamapps/workshop/content/346110")
 
         self.prep_steamcmd()
 
