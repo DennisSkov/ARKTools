@@ -141,7 +141,7 @@ class ArkModDownloader():
        Build a list of all installed mods by grabbing all directory names from the mod folder
        :return:
        """
-        exclude = ["TheCenter", "111111111"]
+        exclude = ["TheCenter", "111111111", "Ragnarok"]
         if not os.path.isdir(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
             return
         for curdir, dirs, files in os.walk(os.path.join(self.working_dir, "ShooterGame/Content/Mods/")):
