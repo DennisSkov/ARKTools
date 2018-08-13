@@ -11,14 +11,14 @@ import zipfile
 
 class ArkModDownloader():
 
-    def __init__(self, steamcmd, modids, working_dir, mod_update, modname):
+    def __init__(self, steamcmd, modids, working_dir, mod_update, modname, preserve=False):
 
         # I not working directory provided, check if CWD has an ARK server.
         self.working_dir = working_dir
         if not working_dir:
             self.working_dir_check()
 
-        self.steamcmd = steamcmd  # Path to SteamCMD exe
+        self.steamcmd = steamcmd  # Path to steamcmd.sh
 
         if not self.steamcmd_check():
             print("SteamCMD Not Found And We Were Unable To Download It")
@@ -28,7 +28,8 @@ class ArkModDownloader():
         self.installed_mods = []  # List to hold installed mods
         self.map_names = []  # Stores map names from mod.info
         self.meta_data = OrderedDict([])  # Stores key value from modmeta.info
-        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"../Steam/steamapps/workshop/content/346110")
+        self.temp_mod_path = os.path.join(os.path.dirname(self.steamcmd), r"steamapps/workshop/content/346110")
+        self.preserve = preserve
 
         self.prep_steamcmd()
 
@@ -110,6 +111,10 @@ class ArkModDownloader():
         by another customer SteamCMD will think it already exists and not download again.
         :return:
         """
+        
+        if self.preserve:
+            return
+    
         steamapps = os.path.join(os.path.dirname(self.steamcmd), "steamapps")
 
         if os.path.isdir(steamapps):
@@ -161,7 +166,7 @@ class ArkModDownloader():
         args.append("346110")
         args.append(modid)
         args.append("+quit")
-        subprocess.call(args, shell=False)
+        subprocess.call(args, shell=True)
 
         return True if self.extract_mod(modid) else False
 
@@ -355,7 +360,6 @@ class ArkModDownloader():
         print("[+] Collecting Mod Details From mod.info")
 
         mod_info = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/mod.info")
-        print("[+] Collecting Mod Details From "+mod_info)
 
         if not os.path.isfile(mod_info):
             print("[x] Failed to locate mod.info. Cannot Continue.  Aborting")
@@ -377,9 +381,10 @@ class ArkModDownloader():
 def main():
     parser = argparse.ArgumentParser(description="A utility to download ARK Mods via SteamCMD")
     parser.add_argument("--workingdir", default=None, dest="workingdir", help="Game server home directory.  Current Directory is used if this is not provided")
-    parser.add_argument("--modid", nargs="+", default=None, dest="modids", help="ID of Mod To Download")
+    parser.add_argument("--modids", nargs="+", default=None, dest="modids", help="ID of Mod To Download")
     parser.add_argument("--steamcmd", default=None, dest="steamcmd", help="Path to SteamCMD")
     parser.add_argument("--update", default=None, action="store_true", dest="mod_update", help="Update Existing Mods.  ")
+    parser.add_argument("--preserve", default=None, action="store_true", dest="preserve", help="Don't Delete StreamCMD Content Between Runs")
     parser.add_argument("--namefile", default=None, action="store_true", dest="modname", help="Create a .name File With Mods Text Name")
 
     args = parser.parse_args()
@@ -388,10 +393,13 @@ def main():
         print("[x] No Mod ID Provided and Update Not Selected.  Aborting")
         print("[?] Please provide a Mod ID to download or use --update to update your existing mods")
         sys.exit(0)
-
-    ArkModDownloader(args.steamcmd, args.modids, args.workingdir, args.mod_update, args.modname)
-
-
-
+        
+    ArkModDownloader(args.steamcmd,
+                     args.modids,
+                     args.workingdir,
+                     args.mod_update,
+                     args.modname,
+                     args.preserve)
+ 
 if __name__ == '__main__':
     main()
