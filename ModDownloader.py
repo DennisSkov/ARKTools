@@ -360,7 +360,8 @@ class ArkModDownloader():
         print("[+] Collecting Mod Details From mod.info")
 
         mod_info = os.path.join(self.temp_mod_path, modid, r"WindowsNoEditor/mod.info")
-
+        print("[+] Collecting Mod Details From "+mod_info)
+        
         if not os.path.isfile(mod_info):
             print("[x] Failed to locate mod.info. Cannot Continue.  Aborting")
             return False
